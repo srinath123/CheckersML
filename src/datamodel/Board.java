@@ -7,6 +7,11 @@ public class Board {
 	public Coin[][] coins;
 	
 	private boolean attacking;
+	private boolean intermediate;
+	public boolean isIntermediate() {
+		return intermediate;
+	}
+
 	int blackKings,blackPieces,redKings,redPieces;
 	
 	public int getBlackKings() {
@@ -134,6 +139,7 @@ public class Board {
 					Board temp=new Board(currentState);
 					temp.coins[x+x_arr[i]][y+y_arr[i]]=temp.coins[x][y];
 					temp.coins[x][y]=null;
+					temp.intermediate=false;
 					output.add(temp);
 				}
 		}
@@ -168,13 +174,20 @@ public class Board {
 				temp.coins[x+x_arr[i]][y+y_arr[i]]=temp.coins[x][y];
 				temp.coins[x][y]=null;
 				temp.attacking=true;
+				
 				addKingMoves(output,temp,x+x_arr[i],y+y_arr[i],color);
 			}
-		
 		if(no_moves==0&&currentState.attacking)
+			{
+			currentState.intermediate=false;
+			output.add(currentState);	
+			}
+		else if(no_moves>0&&currentState.attacking)
 		{
+			currentState.intermediate=true;
 			output.add(currentState);
 		}
+		
 		
 	}
 	
@@ -211,7 +224,7 @@ public class Board {
 						temp.redPieces--;
 						temp.coins[x+x_arr[i]][y+y_arr[i]].setType(Coin.KING);
 					}
-					
+					temp.intermediate=false;
 					output.add(temp);
 				}			
 		}
@@ -267,12 +280,22 @@ public class Board {
 					temp.redPieces--;
 					temp.coins[x+x_arr[i]][y+y_arr[i]].setType(Coin.KING);
 				}
-				
-				addOrdinaryMoves(output,temp,x+x_arr[i],y+y_arr[i],color);
+				//if(temp.coins[x+x_arr[i]][y+y_arr[i]].getType()==Coin.ORDINARY)
+					addOrdinaryMoves(output,temp,x+x_arr[i],y+y_arr[i],color);
+				//else
+					//addKingMoves(output, temp, x+x_arr[i], y+y_arr[i], color);
 			}
 		
 		if(no_moves==0&&currentState.attacking)
-			output.add(currentState);		
+		{
+			currentState.intermediate=false;
+			output.add(currentState);
+		}
+		else if(no_moves>0&&currentState.attacking)
+		{
+			currentState.intermediate=true;
+			output.add(currentState);
+		}
 	}
 	
 	

@@ -11,7 +11,7 @@ public class CheckersTest {
 	public static void main(String args[])
 	{
 		NewCheckersGame newGame;
-		for(int i=0;i<1000;i++)
+		for(int i=0;i<100;i++)
 			newGame=new NewCheckersGame(new Agent(Coin.BLACK,true),new Agent(Coin.RED,true));
 	}
 }

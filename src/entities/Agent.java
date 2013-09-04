@@ -33,6 +33,13 @@ public class Agent implements Player{
 		gamehistory.add(board);
 		double max=-1e200;
 		List<Board> legalMoves=board.listLegalTransitions(color);
+		List<Board> nonIntermediateMoves=new ArrayList<Board>();
+		
+		for(Board b:legalMoves)
+			if(!b.isIntermediate())
+				nonIntermediateMoves.add(b);
+		legalMoves=nonIntermediateMoves;
+		
 		for(int i=0;i<legalMoves.size();i++)
 		{
 			double val=evaluation(legalMoves.get(i));
@@ -45,7 +52,7 @@ public class Agent implements Player{
 				potentialMoves.add(b);
 		Random newRandom=new Random();
 		Board temp=potentialMoves.get(Math.abs(newRandom.nextInt())%potentialMoves.size());
-		
+	
 		if(color==Coin.BLACK)
 			System.out.print("Black ");
 		else
@@ -56,6 +63,7 @@ public class Agent implements Player{
 		System.out.println();
 		System.out.println(evaluation(temp));
 		temp.PrintBoard();
+	
 		return temp;
 	}
 	

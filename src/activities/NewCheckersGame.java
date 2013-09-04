@@ -95,7 +95,7 @@ public class NewCheckersGame {
 	private boolean islegalTransition(Board board,Player player)
 	{
 		for(Board b:checkersBoard.listLegalTransitions(player.getColor()))
-			if(b.equals(board))
+			if(b.equals(board)&&!b.isIntermediate())
 				return true;
 		return false;
 	}
